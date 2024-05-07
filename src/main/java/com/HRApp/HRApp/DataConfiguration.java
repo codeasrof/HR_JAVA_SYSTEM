@@ -15,19 +15,20 @@ public class DataConfiguration {
     @Bean
     public DataSource dataSource(){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jbdc.Driver");
-        dataSource.setUrl("jbdc:mysql://localhost:3306/RHApp?userTimezone=true&serverTimezone=UTC");
+        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/RHApp?useTimezone=true&serverTimezone=UTC"); 
         dataSource.setUsername("root");
         dataSource.setPassword("GodIsGood@2023#");
         return dataSource;
     }
 
+    @Bean // Adicionado a anotação @Bean aqui
     public JpaVendorAdapter jpaVendorAdapter(){
         HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
         adapter.setDatabase(Database.MYSQL);
         adapter.setShowSql(true);
         adapter.setGenerateDdl(true);
-        adapter.setDatabasePlatform("org.hibernate.dialect.MariaDBDialect");
+        adapter.setDatabasePlatform("org.hibernate.dialect.MySQLDialect"); 
         adapter.setPrepareConnection(true);
         return adapter;
     }
