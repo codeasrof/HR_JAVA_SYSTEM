@@ -10,6 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotEmpty;
 
+
+@Entity
 public class Vaga implements Serializable {
     private static final long serialVersionUID = 1L;
 
