@@ -10,17 +10,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotEmpty;
 
-public class Vaga  implements Serializable{
+public class Vaga implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue ( strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long codigo;
 
     @NotEmpty
     private String nome;
 
-    @NotEmpty 
+    @NotEmpty
     private String descricao;
 
     @NotEmpty
@@ -29,5 +29,56 @@ public class Vaga  implements Serializable{
     @NotEmpty
     private String salario;
 
+    @OneToMany(mappedBy = "vaga", cascade = CascadeType.REMOVE)
+    private List<Candidato> candidatos;
+
+    // Getters e Setters
+    public long getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(long codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public String getSalario() {
+        return salario;
+    }
+
+    public void setSalario(String salario) {
+        this.salario = salario;
+    }
+
+    public List<Candidato> getCandidatos() {
+        return candidatos;
+    }
+
+    public void setCandidatos(List<Candidato> candidatos) {
+        this.candidatos = candidatos;
+    }
 
 }
