@@ -37,4 +37,26 @@ public class VagaController {
 
         return "redirect:/cadastrarVaga";
     }
+
+    // Listar vagas
+    @RequestMapping("/vagas")
+    public ModelAndView listaVagas(){
+        ModelAndView mv = new ModelAndView("vaga/listaVaga");
+        Iterable<Vaga> vagas = vr.findAll();
+        mv.addObject("vagas", vagas);
+        return mv;
+    }
+
+    // Busca no banco de dados
+    @RequestMapping(value = "/{codigo}", method = RequestMethod.GET)
+    public ModelAndView detalhesVaga(@PathVariable("codigo") long codigo){
+        Vaga vaga = vr.findByCodigo(codigo);
+        ModelAndView mv = new ModelAndView("vaga/detalhesVaga");
+        mv.addObject("vaga", vaga);
+        Iterable<Candidato> candidatos = cr.findByVaga(vaga);
+        mv.addObject("candidatos", candidatos);
+        return mv;
+    }
+
+
 }
