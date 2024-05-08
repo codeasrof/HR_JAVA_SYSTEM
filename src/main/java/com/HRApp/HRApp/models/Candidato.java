@@ -1,4 +1,5 @@
 package com.HRApp.HRApp.models;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,11 +9,10 @@ import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 public class Candidato {
-    
-    @Id 
+
+    @Id
     @GeneratedValue
     private long id;
-
 
     @Column(unique = true)
     @NotEmpty
@@ -27,32 +27,33 @@ public class Candidato {
     @ManyToOne
     private Vaga vaga;
 
+    // Getters and Setters
 
-    //Getters and Setters
-
-    public String getNomeCandidato(){
+    public String getNomeCandidato() {
         return nomeCandidato;
     }
 
-    public void setNomeCandidato(String nomeCandidato){
+    public void setNomeCandidato(String nomeCandidato) {
         this.nomeCandidato = nomeCandidato;
     }
 
-
-    public String getEmail(){
+    public String getEmail() {
         return email;
     }
 
-    public void setEmailCandidato(String email){
+    public void setEmailCandidato(String email) {
         this.email = email;
     }
 
-    public Vaga getVaga(){
+    public Vaga getVaga() {
         return vaga;
     }
-    
 
-    public void setCandidatos(Vaga vaga) {
+    public void setVaga(Vaga vaga) {
         this.vaga = vaga;
+    }
+
+    public String getRG() {
+        return rg;
     }
 }

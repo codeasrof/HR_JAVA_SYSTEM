@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 import com.HRApp.HRApp.models.Candidato;
 
-
 @Controller
 public class VagaController {
     private VagaRepository vr;
@@ -22,25 +21,26 @@ public class VagaController {
 
     // Cadastrar vaga
     @RequestMapping(value = "cadastrarVaga", method = RequestMethod.GET)
-    public String form(){
+    public String form() {
         return "vaga/formVaga";
     }
 
     @RequestMapping(value = "/cadastrarVaga", method = RequestMethod.POST)
-    public String form(@Valid Vaga vaga, BindingResult result, RedirectAttributes attributes){
-        if(result.hasErrors()){
+    public String form(@Valid Vaga vaga, BindingResult result, RedirectAttributes attributes) {
+        if (result.hasErrors()) {
             attributes.addFlashAttribute("mensagem", "Please check the information and try again.");
             return "redirect:/cadastrarVaga";
         }
         vr.save(vaga);
-        attributes.addFlashAttribute("mensagem", "Job opportunity successfully registered");;
+        attributes.addFlashAttribute("mensagem", "Job opportunity successfully registered");
+        ;
 
         return "redirect:/cadastrarVaga";
     }
 
     // Listar vagas
     @RequestMapping("/vagas")
-    public ModelAndView listaVagas(){
+    public ModelAndView listaVagas() {
         ModelAndView mv = new ModelAndView("vaga/listaVaga");
         Iterable<Vaga> vagas = vr.findAll();
         mv.addObject("vagas", vagas);
@@ -49,7 +49,7 @@ public class VagaController {
 
     // Busca no banco de dados
     @RequestMapping(value = "/{codigo}", method = RequestMethod.GET)
-    public ModelAndView detalhesVaga(@PathVariable("codigo") long codigo){
+    public ModelAndView detalhesVaga(@PathVariable("codigo") long codigo) {
         Vaga vaga = vr.findByCodigo(codigo);
         ModelAndView mv = new ModelAndView("vaga/detalhesVaga");
         mv.addObject("vaga", vaga);
@@ -58,5 +58,33 @@ public class VagaController {
         return mv;
     }
 
+    // Deletar vaga
+    @RequestMapping("/deletarVaga")
+    public String deletarVaga(long codigo) {
+        Vaga vaga = vr.findByCodigo(codigo);
+        vr.delete(vaga);
+        return "redirect:/vagas";
+    }
+
+    public String detalhesVagaPost(@PathVariable("codigo") long codigo, @Valid Candidato candidato,
+            BindingResult result, RedirectAttributes attributes) {
+            
+            if(result.hasErrors()){
+                attributes.addFlashAttribute("mensagem", "Please check the information and try agrain.");
+                return "redirect/{codigo}";
+            }
+
+            // RG duplicado
+            if(cr.findByRG(candidato.getRG()) != null){
+                attributes.addFlashAttribute("mensagem erro", "Document duplicated.");
+                return "redirect:/{codigo}";
+            }
+
+        Vaga vaga = vr.findByCodigo(codigo);
+        candidato.setVaga(vaga);
+        cr.save(candidato);
+        attributes.addFlashAttribute("mensagem", "Submited with success.");
+        return "redirect:/{codigo}";
+    }
 
 }
